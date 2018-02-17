@@ -5,6 +5,4 @@
     <string name="movie_poster_contDescrip">Movie Poster</string>
     <string name="image_base_url">http://image.tmdb.org/t/p/w185</string>
 
-    <!--TODO: Remove before upload with instructions to attain API-->
-    
 </resources>

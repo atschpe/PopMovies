@@ -1,9 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.android.popmovies.DetailActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.android.popmovies.DetailActivity">
+
+        <ImageView
+            android:id="@+id/poster_thumbnail_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="@dimen/detail_image_margin"
+            android:layout_marginTop="@dimen/detail_image_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/user_rating_label_tv"
+            style="@style/label"
+            android:layout_marginBottom="@dimen/detail_text_margin"
+            android:contentDescription="@string/user_rating_label"
+            android:text="@string/user_rating_label_contDescrip"
+            app:layout_constraintBottom_toTopOf="@+id/release_date_label"
+            app:layout_constraintStart_toStartOf="@+id/release_date_label" />
+
+        <TextView
+            android:id="@+id/user_rating"
+            style="@style/text"
+            android:layout_marginLeft="@dimen/detail_text_margin"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:contentDescription="@string/user_rating"
+            app:layout_constraintBottom_toBottomOf="@+id/user_rating_label_tv"
+            app:layout_constraintStart_toEndOf="@+id/user_rating_label_tv"
+            tools:text="6.4" />
+
+        <TextView
+            android:id="@+id/release_date_label"
+            style="@style/label"
+            android:layout_marginLeft="@dimen/detail_text_margin"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:contentDescription="@string/release_date_label_contDescrip"
+            android:text="@string/release_date_label"
+            app:layout_constraintBottom_toBottomOf="@+id/poster_thumbnail_iv"
+            app:layout_constraintStart_toEndOf="@+id/poster_thumbnail_iv" />
+
+        <TextView
+            android:id="@+id/release_date"
+            style="@style/text"
+            android:layout_marginLeft="@dimen/detail_text_margin"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:contentDescription="@string/release_date_contDescrip"
+            app:layout_constraintBottom_toBottomOf="@+id/release_date_label"
+            app:layout_constraintStart_toEndOf="@+id/release_date_label"
+            tools:text="01/01/2010" />
+
+        <TextView
+            android:id="@+id/synopsis_label_tv"
+            style="@style/label"
+            android:layout_marginTop="@dimen/detail_text_margin"
+            android:contentDescription="@string/synopsis_label_ContDescrip"
+            android:text="@string/synopsis_label"
+            app:layout_constraintStart_toStartOf="@+id/poster_thumbnail_iv"
+            app:layout_constraintTop_toBottomOf="@+id/poster_thumbnail_iv" />
+
+        <TextView
+            android:id="@+id/synopsis_tv"
+            style="@style/text"
+            android:layout_marginTop="@dimen/detail_text_margin"
+            android:contentDescription="@string/synopsis_contDescrip"
+            android:paddingEnd="@dimen/detail_text_margin"
+            android:paddingRight="@dimen/detail_text_margin"
+            app:layout_constraintStart_toStartOf="@+id/synopsis_label_tv"
+            app:layout_constraintTop_toBottomOf="@+id/synopsis_label_tv"
+            tools:text="A couple of lines describing the synopsis of the movie." />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

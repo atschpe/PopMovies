@@ -37,7 +37,7 @@ public class Movie implements Parcelable {
         mvTitle = in.readString();
         mvId = in.readLong();
         mvSynopsis = in.readString();
-        mvRating = in.readLong();
+        mvRating = in.readDouble();
         mvRelease = in.readString();
     }
 
@@ -60,6 +60,12 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mvPoster);
+        dest.writeString(mvTitle);
+        dest.writeLong(mvId);
+        dest.writeString(mvSynopsis);
+        dest.writeDouble(mvRating);
+        dest.writeString(mvRelease);
     }
 
     public String getMvPoster() {

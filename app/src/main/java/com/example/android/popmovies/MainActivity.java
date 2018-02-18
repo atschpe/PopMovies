@@ -1,12 +1,16 @@
 package com.example.android.popmovies;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.android.popmovies.data.Movie;
 import com.example.android.popmovies.data.MovieAdapter;
@@ -23,30 +27,39 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
 
     private MovieAdapter movieAdapter;
     private ActivityMainBinding mainBinding;
-    private ArrayList<Movie> movieList;
+    public ArrayList<Movie> movieList;
     private int LOADER_ID = 1;
+    static String INSTANTESTATE_KEY = "movies";
+    static String INTENT_KEY = "selectedMovie";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null || !savedInstanceState.containsKey(INSTANTESTATE_KEY)) {
+            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        } else {
+            movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
+        }
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-//        movieList = new ArrayList<Movie>();
-//        movieList.add(new Movie("/q0R4crx2SehcEEQEkYObktdeFy.jpg", 211672));
-//        movieList.add(new Movie("/qey0tdcOp9kCDdEZuJ87yE3crSe.jpg", 254128));
-//        movieList.add(new Movie("/tWqifoYuwLETmmasnGHO7xBjEtt.jpg", 321612));
-//        movieList.add(new Movie("/47pLZ1gr63WaciDfHCpmoiXJlVr.jpg", 460793));
-//        movieList.add(new Movie("/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg", 335984));
-//        movieList.add(new Movie("/xOfdQHNF9TlrdujyAjiKfUhxSXy.jpg", 335777));
-
-        getSupportLoaderManager().initLoader(LOADER_ID,null, this);
-
+        mainBinding.gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie movie = movieAdapter.getItem(position);
+                Intent openDetailActivity = new Intent(MainActivity.this, DetailActivity.class);
+                openDetailActivity.putExtra(INTENT_KEY, movie);
+                startActivity(openDetailActivity);
+            }
+        });
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(INSTANTESTATE_KEY, movieList);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         super.onSaveInstanceState(outState);
     }
+
 
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int id, Bundle args) {
@@ -84,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     }
 
     @Override
-    public void onLoadFinished (Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
+    public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
         mainBinding.progressPb.setVisibility(View.GONE);
 
         if (data == null) {

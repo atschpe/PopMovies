@@ -1,11 +1,25 @@
 <resources>
     <string name="app_name">PopMovies</string>
 
-    <!--MainActivity -->
+    <!--Activities-->
     <string name="movie_poster_contDescrip">Movie Poster</string>
 
     <!--Adapter-->
     <string name="image_base_url">http://image.tmdb.org/t/p/w185</string>
     <string name="no_data">No movie data available. Please check your internet connection and try again.</string>
+
+    <!--DetailActivity-->
+    <string name="synopsis_contDescrip">Movie Description</string>
+    <string name="synopsis_label_ContDescrip">Synopsis</string>
+    <string name="synopsis_label">Synopsis:</string>
+    <string name="release_date_label">Release Date:</string>
+    <string name="release_date_label_contDescrip">Release Date Label</string>
+    <string name="release_date_contDescrip">Release Date of Movie</string>
+    <string name="user_rating_label">User Rating Label</string>
+    <string name="user_rating_label_contDescrip">User Rating:</string>
+    <string name="user_rating">User Rating</string>
+
+    <!--Saving data-->
+    <string name="instancestate_key">movies</string>
 
 </resources>

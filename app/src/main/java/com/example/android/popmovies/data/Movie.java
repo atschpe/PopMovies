@@ -1,4 +1,4 @@
-package com.example.android.popmovies;
+package com.example.android.popmovies.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,7 +12,7 @@ public class Movie implements Parcelable {
     private String mvTitle; // e.g. "Minions"
     private long mvId; // e.g. 123456
     private String mvSynopsis; //e.g. "A long(er) running text describing the storyline of the film."
-    private long mvRating; // e.g. 6.4
+    private double mvRating; // e.g. 6.4
     private String mvRelease; // e.g. 2010-01-01
 
     //used by MainActivity
@@ -22,7 +22,7 @@ public class Movie implements Parcelable {
     }
 
     //used by DetailActivity
-    public Movie(String mvPoster, String mvTitle, long mvId, String mvSynopsis, long mvRating,
+    public Movie(String mvPoster, String mvTitle, long mvId, String mvSynopsis, double mvRating,
                  String mvRelease) {
         this.mvPoster = mvPoster;
         this.mvTitle = mvTitle;
@@ -94,7 +94,7 @@ public class Movie implements Parcelable {
         this.mvSynopsis = mvSynopsis;
     }
 
-    public long getMvRating() {
+    public double getMvRating() {
         return mvRating;
     }
 

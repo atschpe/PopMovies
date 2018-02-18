@@ -1,4 +1,4 @@
-package com.example.android.popmovies;
+package com.example.android.popmovies.data;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.example.android.popmovies.DetailActivity;
+import com.example.android.popmovies.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

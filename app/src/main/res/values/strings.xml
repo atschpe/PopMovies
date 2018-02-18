@@ -6,5 +6,6 @@
 
     <!--Adapter-->
     <string name="image_base_url">http://image.tmdb.org/t/p/w185</string>
+    <string name="no_data">No movie data available. Please check your internet connection and try again.</string>
 
 </resources>

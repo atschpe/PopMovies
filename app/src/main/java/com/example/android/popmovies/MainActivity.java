@@ -31,9 +31,8 @@ public class MainActivity extends AppCompatActivity {
         movieArray.add(new Movie("/xOfdQHNF9TlrdujyAjiKfUhxSXy.jpg", 335777));
 
         movieAdapter = new MovieAdapter(this, movieArray);
-        //mainBinding.gv.setAdapter(movieAdapter);
-        Picasso.with(this).load("http://i.imgur.com/DvpvklR.png").into(mainBinding.imageTest);
-        Picasso.with(this).setLoggingEnabled(true);
+        mainBinding.gv.setAdapter(movieAdapter);
+
 
     }
 

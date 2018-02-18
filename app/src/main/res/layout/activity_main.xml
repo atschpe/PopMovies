@@ -3,24 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--<GridView-->
-    <!--android:id="@+id/gv"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:columnWidth="200dp"-->
-    <!--android:numColumns="auto_fit"-->
-    <!--android:horizontalSpacing="16dp"-->
-    <!--android:verticalSpacing="16dp"-->
-    <!--tools:context="com.example.android.popmovies.MainActivity">-->
-    <!--</GridView>-->
-    <FrameLayout
+    <GridView
+        android:id="@+id/gv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/image_test"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:numColumns="5"
+        android:verticalSpacing="@dimen/grid_spacing"
+        android:horizontalSpacing="@dimen/grid_spacing"
+        android:padding="@dimen/grid_spacing"
+        android:stretchMode="columnWidth"
+        tools:context="com.example.android.popmovies.MainActivity"/>
 
 </layout>

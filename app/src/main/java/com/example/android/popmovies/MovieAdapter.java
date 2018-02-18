@@ -1,6 +1,7 @@
 package com.example.android.popmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,6 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * {@link MovieAdapter}
@@ -31,8 +29,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Movie currentMovie = getItem(position);
-        Context ctxt = getContext();
+        final Movie currentMovie = getItem(position);
+        final Context ctxt = getContext();
 
         if (convertView == null) {
             convertView = LayoutInflater.from(ctxt).inflate(R.layout.activity_poster, parent, false);
@@ -45,6 +43,18 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
         Picasso.with(ctxt).load(poster_url).into(poster);
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long mvId = currentMovie.getMvId();
+                Intent openDetailActivity = new Intent(ctxt, DetailActivity.class);
+                openDetailActivity.putExtra("mvId", mvId);
+                ctxt.startActivity(openDetailActivity);
+            }
+        });
+
         return convertView;
     }
+
+
 }

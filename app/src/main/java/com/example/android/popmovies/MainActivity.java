@@ -1,7 +1,9 @@
 package com.example.android.popmovies;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +25,8 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements LoaderCallbacks<ArrayList<Movie>> {
+public class MainActivity extends AppCompatActivity
+        implements LoaderCallbacks<ArrayList<Movie>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     private int LOADER_ID = 1;
     static String INSTANTESTATE_KEY = "movies";
     static String INTENT_KEY = "selectedMovie";
-
+    static boolean PREFERENCES_UPDATED = false;
 
 
     @Override
@@ -49,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
             startLoader();
         }
 
-
         mainBinding.gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
                 startActivity(openDetailActivity);
             }
         });
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -85,6 +90,22 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
 //        } else {
 //            mainBinding.alertTv.setText(getString(R.string.no_internet));
 //        }
+    }
+
+    @Override
+    protected void onStart() {
+        if(PREFERENCES_UPDATED) {
+            startLoader();
+            PREFERENCES_UPDATED = false;
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroy();
     }
 
     @Override
@@ -143,7 +164,12 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     }
 
     @Override
-    public void onLoaderReset(android.support.v4.content.Loader<ArrayList<Movie>> loader) {
+    public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
 
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        PREFERENCES_UPDATED = true;
     }
 }

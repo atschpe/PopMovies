@@ -24,15 +24,8 @@ public class NetworkUtils {
     private static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
     private static String POPULAR_SEGMENT = "popular";
     private static String RATED_SEGMENT = "top_rated";
-    final private static String SORT_BY_POPULAR = "Popularity";
-    final private static String SORT_BY_RELATED = "Top Rated";
+    static boolean popularityPreferred;
 
-    static String getSortPreference(Context ctxt) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctxt);
-        String sortKey = ctxt.getString(R.string.sort_by_key);
-        String sortDefault = ctxt.getString(R.string.popularity_sort_default);
-        return sharedPref.getString(sortKey, sortDefault);
-    }
 
     /**
      * Build the needed url to make the desired server call.
@@ -41,16 +34,27 @@ public class NetworkUtils {
      * @return the built url.
      */
     private static URL buildUrl(Context ctxt) {
-        String userSelection = null;
-        switch (getSortPreference(ctxt)) {
-            case SORT_BY_POPULAR:
-                userSelection = POPULAR_SEGMENT;
-                break;
-            case SORT_BY_RELATED:
-                userSelection = RATED_SEGMENT;
-                break;
+        //get the user's preference of how to sort the grid.
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctxt);
+        String sortKey = ctxt.getString(R.string.sort_by_key);
+        String sortDefault = ctxt.getString(R.string.popularity_sort_value_default);
+        sharedPref.getString(sortKey, sortDefault);
+        String popularity = ctxt.getString(R.string.popularity_sort_value_default);
+        if (popularity.equals(sortDefault)) {
+            popularityPreferred = true;
+        } else {
+            popularityPreferred = false;
         }
 
+        //get the corresponding url segment
+        String userSelection;
+        if (popularityPreferred) {
+            userSelection = POPULAR_SEGMENT;
+        } else {
+            userSelection = RATED_SEGMENT;
+        }
+
+        //build the url.
         Uri buildUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
                 .appendEncodedPath(userSelection)
                 .appendQueryParameter(API, ctxt.getString(R.string.movieDB_api_v3))

@@ -1,14 +1,14 @@
 package com.example.android.popmovies;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -25,6 +25,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<ArrayList<Movie>> {
 
+    String LOG_TAG = MainActivity.class.getSimpleName();
+
     private MovieAdapter movieAdapter;
     private ActivityMainBinding mainBinding;
     public ArrayList<Movie> movieList;
@@ -32,15 +34,21 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     static String INSTANTESTATE_KEY = "movies";
     static String INTENT_KEY = "selectedMovie";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null || !savedInstanceState.containsKey(INSTANTESTATE_KEY)) {
-            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-        } else {
-            movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
-        }
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(INSTANTESTATE_KEY)) {
+            movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
+            movieAdapter = new MovieAdapter(this, movieList);
+            mainBinding.gv.setAdapter(movieAdapter);
+        } else {
+            startLoader();
+        }
+
 
         mainBinding.gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,9 +62,34 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sort_menu, menu); //display menu
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.sort_menu) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void startLoader() {
+        getSupportLoaderManager().destroyLoader(LOADER_ID);
+        // if (NetworkUtils.isOnline()) {
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+//        } else {
+//            mainBinding.alertTv.setText(getString(R.string.no_internet));
+//        }
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(INSTANTESTATE_KEY, movieList);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         super.onSaveInstanceState(outState);
     }
 
@@ -100,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
         mainBinding.progressPb.setVisibility(View.GONE);
 
-        if (data == null) {
+        if (data == null) { //highly unlikely, with the current options, but better safe than sorry.
             mainBinding.alertTv.setText(R.string.no_data);
         } else {
             mainBinding.alertTv.setVisibility(View.GONE);
@@ -113,5 +146,4 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     public void onLoaderReset(android.support.v4.content.Loader<ArrayList<Movie>> loader) {
 
     }
-
 }

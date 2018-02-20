@@ -6,7 +6,7 @@
 
     <!--Adapter-->
     <string name="image_base_url">http://image.tmdb.org/t/p/w185</string>
-    <string name="no_data">No movie data available. Please check your internet connection and try again.</string>
+    <string name="no_data">No movies are found based on your provided settings. Please adapt them and try again</string>
 
     <!--DetailActivity-->
     <string name="synopsis_contDescrip">Movie Description</string>
@@ -20,6 +20,16 @@
     <string name="user_rating">User Rating</string>
 
     <!--Saving data-->
-    <string name="instancestate_key">movies</string>
 
+    <!--Settings-->
+    <string name="sort_by_label">Sort by</string>
+    <string name="sort_by_key">Sort By</string>
+    <string name="popularity_sort_default">Popularity</string>
+    <string name="rated_sort">Top Rated</string>
+    <string-array name="sort_by_list">
+        <item>@string/popularity_sort_default</item>
+        <item>@string/rated_sort</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

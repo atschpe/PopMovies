@@ -24,18 +24,18 @@ public class JsonUtils {
 
     //required for Stage 1 project:
     private static final String JSON_ID = "id"; //int
-    private static final String JSON_VOTE_AVERAGE = "vote_average"; //double <=
-    private static final String JSON_POSTER_PATH = "poster_path"; //String <=
-    private static final String JSON_ORIGINAL_TITLE = "original_title"; //String <=
-    private static final String JSON_OVERVIEW = "overview"; // String <=
-    private static final String JSON_RELEASE_DATE = "release_date"; // String <=
+    private static final String JSON_VOTE_AVERAGE = "vote_average"; //double
+    private static final String JSON_POSTER_PATH = "poster_path"; //String
+    private static final String JSON_ORIGINAL_TITLE = "original_title"; //String
+    private static final String JSON_OVERVIEW = "overview"; // String
+    private static final String JSON_RELEASE_DATE = "release_date"; // String
 
 
     //quick list of other keys – incase of future necessity.
+    private static final String JSON_POPULARITY = "popularity"; //double
     private static final String JSON_VOTE_COUNT = "vote_count"; //int
     private static final String JSON_VIDEO = "video";//boolean
     private static final String JSON_TITLE = "title"; //String
-    private static final String JSON_POPULARITY = "popularity"; //double
     private static final String JSON_ORIGINAL_LANGUAGE = "original_language"; // String
     private static final String JSON_GENRE_IDS = "genre_ids"; //array; int
     private static final String JSON_BACKDROP_PATH = "backdrop_path"; //String

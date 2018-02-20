@@ -16,9 +16,8 @@ public class Movie implements Parcelable {
     private String mvRelease; // e.g. 2010-01-01
 
     //used by MainActivity
-    public Movie(String mvPoster, long mvId) {
+    public Movie(String mvPoster) {
         this.mvPoster = mvPoster;
-        this.mvId = mvId;
     }
 
     //used by DetailActivity
@@ -115,5 +114,4 @@ public class Movie implements Parcelable {
     public void setMvRelease(String mvRelease) {
         this.mvRelease = mvRelease;
     }
-
 }

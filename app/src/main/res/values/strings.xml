@@ -30,6 +30,6 @@
         <item>@string/popularity_sort_default</item>
         <item>@string/rated_sort</item>
     </string-array>
+    <string name="title_activity_setting">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
 </resources>

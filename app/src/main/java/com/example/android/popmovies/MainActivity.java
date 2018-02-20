@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity
     private int LOADER_ID = 1;
     static String INSTANTESTATE_KEY = "movies";
     static String INTENT_KEY = "selectedMovie";
-    static boolean PREFERENCES_UPDATED = false;
-
+    static boolean preferencesUpdated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity
             movieAdapter = new MovieAdapter(this, movieList);
             mainBinding.gv.setAdapter(movieAdapter);
         } else {
-            startLoader();
+            getSupportLoaderManager().initLoader(LOADER_ID,null, this);
         }
 
         mainBinding.gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,18 +93,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onStart() {
-        if(PREFERENCES_UPDATED) {
-            startLoader();
-            PREFERENCES_UPDATED = false;
-        }
         super.onStart();
+        if (preferencesUpdated){
+            getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+            preferencesUpdated = false;
+        }
     }
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
-        super.onDestroy();
+
     }
 
     @Override
@@ -170,6 +170,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        PREFERENCES_UPDATED = true;
+        preferencesUpdated = true;
     }
 }

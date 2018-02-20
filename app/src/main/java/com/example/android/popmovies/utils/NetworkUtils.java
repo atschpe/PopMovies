@@ -3,7 +3,9 @@ package com.example.android.popmovies.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.android.popmovies.R;
 
@@ -34,21 +36,15 @@ public class NetworkUtils {
      * @return the built url.
      */
     private static URL buildUrl(Context ctxt) {
+        String userSelection;
+
         //get the user's preference of how to sort the grid.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctxt);
         String sortKey = ctxt.getString(R.string.sort_by_key);
         String sortDefault = ctxt.getString(R.string.popularity_sort_value_default);
-        sharedPref.getString(sortKey, sortDefault);
+        String sortPreference = sharedPref.getString(sortKey, sortDefault);
         String popularity = ctxt.getString(R.string.popularity_sort_value_default);
-        if (popularity.equals(sortDefault)) {
-            popularityPreferred = true;
-        } else {
-            popularityPreferred = false;
-        }
-
-        //get the corresponding url segment
-        String userSelection;
-        if (popularityPreferred) {
+        if (popularity.equals(sortPreference)) {
             userSelection = POPULAR_SEGMENT;
         } else {
             userSelection = RATED_SEGMENT;
@@ -61,6 +57,7 @@ public class NetworkUtils {
                 .build();
         try {
             URL url = new URL(buildUri.toString());
+            Log.v("NetworkUtils", "url: " + url);
             return url;
         } catch (MalformedURLException e) {
             e.printStackTrace();

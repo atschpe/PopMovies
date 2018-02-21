@@ -3,6 +3,7 @@ package com.example.android.popmovies.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
@@ -12,7 +13,10 @@ import com.example.android.popmovies.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -85,27 +89,28 @@ public class NetworkUtils {
         }
     }
 
-    // TCP/HTTP/DNS (depending on the port, 53=DNS, 80=HTTP, etc.)
-    // based on: https://stackoverflow.com/a/27312494 as pointed out in the project guidelines
-//    public static boolean isOnline() {
-//        final boolean[] online = new boolean[1];
-//        new AsyncTask<Void, Void, Boolean>() {
-//
-//            @Override
-//            protected Boolean doInBackground(Void... voids) {
-//                try {
-//                    int timeoutMs = 1500;
-//                    Socket sock = new Socket();
-//                    SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
-//
-//                    sock.connect(sockaddr, timeoutMs);
-//                    sock.close();
-//
-//                    return online[0] = true;
-//                } catch (IOException e) {
-//                    return online[0] = false;
-//                }
-//            }
-//        }; return online[0];
-    //}
+    //TCP/HTTP/ DNS(depending on the port, 53=DNS, 80=HTTP, etc.)
+    //based on:https://stackoverflow.com/a/27312494 as pointed out in the project guidelines
+    public static boolean isOnline() {
+        final boolean[] online = new boolean[1];
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                try {
+                    int timeoutMs = 1500;
+                    Socket sock = new Socket();
+                    SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+
+                    sock.connect(sockaddr, timeoutMs);
+                    sock.close();
+
+                    return online[0] = true;
+                } catch (IOException e) {
+                    return online[0] = false;
+                }
+            }
+        };
+        return online[0];
+    }
 }

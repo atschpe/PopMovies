@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.android.popmovies.data.Movie;
+import com.example.android.popmovies.data.PosterAdapter;
 import com.example.android.popmovies.databinding.ActivityDetailBinding;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
+    public static final String INTENT_KEY ="selectedMovie";
     static String LOG_TAG = DetailActivity.class.getSimpleName();
 
     ActivityDetailBinding detailBinding;
@@ -22,8 +24,8 @@ public class DetailActivity extends AppCompatActivity {
         detailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         Intent movieIntent = getIntent();
-        if (movieIntent != null && movieIntent.hasExtra(MainActivity.INTENT_KEY)) {
-            movie = movieIntent.getParcelableExtra(MainActivity.INTENT_KEY);
+        if (movieIntent != null && movieIntent.hasExtra(INTENT_KEY)) {
+            movie = movieIntent.getParcelableExtra(INTENT_KEY);
         }
 
         String poster_url = getString(R.string.image_base_url) + movie.getMvPoster();

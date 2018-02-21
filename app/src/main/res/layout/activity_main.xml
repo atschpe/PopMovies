@@ -7,20 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <GridView
-            android:id="@+id/gv"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/grid_spacing"
-            android:horizontalSpacing="@dimen/grid_spacing"
-            android:numColumns="5"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="@dimen/grid_spacing"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:context="com.example.android.popmovies.MainActivity" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/alert_tv"
@@ -38,7 +29,8 @@
             android:id="@+id/progress_pb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/gv"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

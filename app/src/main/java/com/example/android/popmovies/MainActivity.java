@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -44,11 +46,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        checkNetwork(); // ensure there is internet.
+
         if (savedInstanceState != null && savedInstanceState.containsKey(INSTANTESTATE_KEY)) {
+            mainBinding.alertTv.setVisibility(View.GONE);
+            mainBinding.progressPb.setVisibility(View.GONE);
             movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
             setUpAdapter(this, movieList);
         } else {
-            startLoader();
+            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
         }
 
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -79,11 +85,15 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void startLoader() {
+    //If there is no internet display a message prompting the user to check it.
+    //based on: https://stackoverflow.com/a/4009133 as pointed out in the project guidelines
+    private void checkNetwork() {
         getSupportLoaderManager().destroyLoader(LOADER_ID);
-        if(NetworkUtils.isOnline()) {
-            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-        } else {
+        ConnectivityManager connectMan = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectMan != null;
+        NetworkInfo netInfo = connectMan.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             mainBinding.alertTv.setVisibility(View.VISIBLE);
             mainBinding.alertTv.setText(getString(R.string.no_internet));
             mainBinding.progressPb.setVisibility(View.GONE);
@@ -93,7 +103,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        checkNetwork();
         if (preferencesUpdated) {
+            movieList = null;
             getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
             preferencesUpdated = false;
         }
@@ -116,6 +128,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int id, Bundle args) {
+        mainBinding.alertTv.setVisibility(View.GONE);
         return new AsyncTaskLoader<ArrayList<Movie>>(this) {
 
             private String url; //the url used to make the server call

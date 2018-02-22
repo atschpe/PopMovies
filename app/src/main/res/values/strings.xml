@@ -25,10 +25,10 @@
     <!--Settings-->
     <string name="sort_by_label">Sort by</string>
     <string name="sort_by_key">Sort By</string>
-    <string name="popularity_sort_label_default">Popularity</string>
-    <string name="rated_sort_label">Top Rated</string>
-    <string name="popularity_sort_value_default">Sort by popularity</string>
-    <string name="rated_sort_value">Sort by top rated</string>
+    <string name="popularity_sort_value_default">Popularity</string>
+    <string name="rated_sort_value">Top Rated</string>
+    <string name="popularity_sort_label_default">Sort by popularity</string>
+    <string name="rated_sort_label">Sort by top rated</string>
     <string name="title_activity_setting">Settings</string>
 
 </resources>

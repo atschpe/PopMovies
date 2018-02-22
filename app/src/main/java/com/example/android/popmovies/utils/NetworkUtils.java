@@ -2,6 +2,8 @@ package com.example.android.popmovies.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,8 +32,6 @@ public class NetworkUtils {
     private static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
     private static String POPULAR_SEGMENT = "popular";
     private static String RATED_SEGMENT = "top_rated";
-    static boolean popularityPreferred;
-
 
     /**
      * Build the needed url to make the desired server call.
@@ -45,10 +45,9 @@ public class NetworkUtils {
         //get the user's preference of how to sort the grid.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctxt);
         String sortKey = ctxt.getString(R.string.sort_by_key);
-        String sortDefault = ctxt.getString(R.string.popularity_sort_value_default);
+        String sortDefault = ctxt.getString(R.string.popularity_sort_label_default);
         String sortPreference = sharedPref.getString(sortKey, sortDefault);
-        String popularity = ctxt.getString(R.string.popularity_sort_value_default);
-        if (popularity.equals(sortPreference)) {
+        if (sortDefault.equals(sortPreference)) {
             userSelection = POPULAR_SEGMENT;
         } else {
             userSelection = RATED_SEGMENT;
@@ -87,30 +86,5 @@ public class NetworkUtils {
         } finally {
             urlConnect.disconnect();
         }
-    }
-
-    //TCP/HTTP/ DNS(depending on the port, 53=DNS, 80=HTTP, etc.)
-    //based on:https://stackoverflow.com/a/27312494 as pointed out in the project guidelines
-    public static boolean isOnline() {
-        final boolean[] online = new boolean[1];
-        new AsyncTask<Void, Void, Boolean>() {
-
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                try {
-                    int timeoutMs = 1500;
-                    Socket sock = new Socket();
-                    SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
-
-                    sock.connect(sockaddr, timeoutMs);
-                    sock.close();
-
-                    return online[0] = true;
-                } catch (IOException e) {
-                    return online[0] = false;
-                }
-            }
-        };
-        return online[0];
     }
 }

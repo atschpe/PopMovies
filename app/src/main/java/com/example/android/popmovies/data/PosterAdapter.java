@@ -2,7 +2,6 @@ package com.example.android.popmovies.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
 
     private static final String LOG_TAG = PosterAdapter.class.getSimpleName();
 
-    private Context ctxt;
-    private ArrayList<Movie> movieList;
+    private final Context ctxt;
+    private final ArrayList<Movie> movieList;
 
 
     /**
@@ -76,8 +75,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
 
     class PosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        Movie movie;
-        ImageView posterView;
+        final ImageView posterView;
 
         public PosterViewHolder(View itemView) {
             super(itemView);

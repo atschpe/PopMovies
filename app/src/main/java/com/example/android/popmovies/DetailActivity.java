@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.android.popmovies.data.Movie;
-import com.example.android.popmovies.data.PosterAdapter;
 import com.example.android.popmovies.databinding.ActivityDetailBinding;
 import com.squareup.picasso.Picasso;
 
@@ -15,8 +14,8 @@ public class DetailActivity extends AppCompatActivity {
     public static final String INTENT_KEY ="selectedMovie";
     static String LOG_TAG = DetailActivity.class.getSimpleName();
 
-    ActivityDetailBinding detailBinding;
-    Movie movie;
+    private ActivityDetailBinding detailBinding;
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

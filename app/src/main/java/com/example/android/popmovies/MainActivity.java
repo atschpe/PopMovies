@@ -36,10 +36,10 @@ public class MainActivity extends AppCompatActivity
 
     private PosterAdapter posterAdapter;
     private ActivityMainBinding mainBinding;
-    public ArrayList<Movie> movieList;
-    private int LOADER_ID = 1;
-    static String INSTANTESTATE_KEY = "movies";
-    static boolean preferencesUpdated = false;
+    private ArrayList<Movie> movieList;
+    private final int LOADER_ID = 1;
+    private static final String INSTANTESTATE_KEY = "movies";
+    private static boolean preferencesUpdated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

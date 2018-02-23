@@ -2,11 +2,7 @@ package com.example.android.popmovies.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
@@ -15,10 +11,7 @@ import com.example.android.popmovies.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -28,10 +21,10 @@ import java.util.Scanner;
 public class NetworkUtils {
 
     //create a /values/api.xml resource and store your api as "movieDB_api_v3" string
-    private static String API = "api_key";
-    private static String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
-    private static String POPULAR_SEGMENT = "popular";
-    private static String RATED_SEGMENT = "top_rated";
+    private static final String API = "api_key";
+    private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
+    private static final String POPULAR_SEGMENT = "popular";
+    private static final String RATED_SEGMENT = "top_rated";
 
     /**
      * Build the needed url to make the desired server call.

@@ -36,7 +36,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         }
     }
 
-    void updatePrefSummary(Preference pref, String value) {
+    private void updatePrefSummary(Preference pref, String value) {
         ListPreference listPref = (ListPreference) pref;
         int listPrefIndex = listPref.findIndexOfValue(value);
         if (listPrefIndex >= 0) {

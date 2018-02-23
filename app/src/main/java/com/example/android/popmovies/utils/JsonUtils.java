@@ -1,7 +1,5 @@
 package com.example.android.popmovies.utils;
 
-import android.content.Context;
-
 import com.example.android.popmovies.data.Movie;
 
 import org.json.JSONArray;
@@ -23,7 +21,6 @@ public class JsonUtils {
     private static final String JSON_RESULTS = "results"; //array
 
     //required for Stage 1 project:
-    private static final String JSON_ID = "id"; //int
     private static final String JSON_VOTE_AVERAGE = "vote_average"; //double
     private static final String JSON_POSTER_PATH = "poster_path"; //String
     private static final String JSON_ORIGINAL_TITLE = "original_title"; //String
@@ -31,7 +28,8 @@ public class JsonUtils {
     private static final String JSON_RELEASE_DATE = "release_date"; // String
 
 
-    //quick list of other keys – incase of future necessity.
+    //quick list of other keys – incase of future necessity in Stage 2.
+    private static final String JSON_ID = "id"; //int
     private static final String JSON_POPULARITY = "popularity"; //double
     private static final String JSON_VOTE_COUNT = "vote_count"; //int
     private static final String JSON_VIDEO = "video";//boolean
@@ -67,16 +65,15 @@ public class JsonUtils {
 
             JSONObject movieItem = movieResults.getJSONObject(i);
 
-            int movieId = movieItem.getInt(JSON_ID);
             double movieVote = movieItem.getDouble(JSON_VOTE_AVERAGE);
             String moviePoster = movieItem.getString(JSON_POSTER_PATH);
             String movieOrgTitle = movieItem.getString(JSON_ORIGINAL_TITLE);
             String movieOverview = movieItem.getString(JSON_OVERVIEW);
             String movieRelease = movieItem.getString(JSON_RELEASE_DATE);
 
-            //Movie Constructor: String mvPoster, String mvTitle, long mvId, String mvSynopsis,
+            //Movie Constructor: String mvPoster, String mvTitle, String mvSynopsis,
             // long mvRating, String mvRelease
-            movieList.add(new Movie(moviePoster, movieOrgTitle, movieId, movieOverview, movieVote,
+            movieList.add(new Movie(moviePoster, movieOrgTitle, movieOverview, movieVote,
                     movieRelease));
         }
 

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -12,10 +12,15 @@
     <style name="text">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="label" parent="text">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="sort_pref">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
 </resources>

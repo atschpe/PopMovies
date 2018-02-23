@@ -46,19 +46,24 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        checkNetwork(); // ensure there is internet.
-
         if (savedInstanceState != null && savedInstanceState.containsKey(INSTANTESTATE_KEY)) {
             mainBinding.alertTv.setVisibility(View.GONE);
             mainBinding.progressPb.setVisibility(View.GONE);
             movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
             setUpAdapter(this, movieList);
         } else {
-            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+            checkNetworkToLoad(); // ensure there is internet.
         }
 
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
+
+        mainBinding.alertTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkNetworkToLoad();
+            }
+        });
     }
 
     private void setUpAdapter(Context ctxt, ArrayList<Movie> movieList) {
@@ -87,13 +92,16 @@ public class MainActivity extends AppCompatActivity
 
     //If there is no internet display a message prompting the user to check it.
     //based on: https://stackoverflow.com/a/4009133 as pointed out in the project guidelines
-    private void checkNetwork() {
-        getSupportLoaderManager().destroyLoader(LOADER_ID);
+    private void checkNetworkToLoad() {
         ConnectivityManager connectMan = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         assert connectMan != null;
         NetworkInfo netInfo = connectMan.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            getSupportLoaderManager().destroyLoader(LOADER_ID);
+            mainBinding.alertTv.setVisibility(View.GONE);
+            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        } else {
             mainBinding.alertTv.setVisibility(View.VISIBLE);
             mainBinding.alertTv.setText(getString(R.string.no_internet));
             mainBinding.progressPb.setVisibility(View.GONE);
@@ -103,10 +111,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        checkNetwork();
         if (preferencesUpdated) {
             movieList = null;
-            getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+            checkNetworkToLoad();
             preferencesUpdated = false;
         }
     }

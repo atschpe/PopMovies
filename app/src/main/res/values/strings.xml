@@ -7,7 +7,7 @@
     <!--Adapter-->
     <string name="image_base_url">http://image.tmdb.org/t/p/w185</string>
     <string name="no_data">No movies are found based on your provided settings. Please adapt them and try again</string>
-    <string name="no_internet">Please check your internet connection and try again.</string>
+    <string name="no_internet">Please check your internet connection and try again by tapping here.</string>
 
     <!--DetailActivity-->
     <string name="synopsis_contDescrip">Movie Description</string>
@@ -30,5 +30,6 @@
     <string name="popularity_sort_label_default">Sort by popularity</string>
     <string name="rated_sort_label">Sort by top rated</string>
     <string name="title_activity_setting">Settings</string>
+    <string name="poster_thumb_contentDescrip">Thumbnail of Poster</string>
 
 </resources>

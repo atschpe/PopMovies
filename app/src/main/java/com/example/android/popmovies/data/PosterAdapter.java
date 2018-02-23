@@ -26,8 +26,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
 
     /**
      * Constructor
-     *  @param ctxt is the context within which the adapter is called.
-     * @param movieList is the collection of movie posters.
+     *
+     * @param ctxt          is the context within which the adapter is called.
+     * @param movieList     is the collection of movie posters.
      * @param posterClicker is the clickHandler.
      */
     public PosterAdapter(Context ctxt, ArrayList<Movie> movieList, PosterClickHandler posterClicker) {
@@ -69,7 +70,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        if (movieList == null) {
+            return 0;
+        } else {
+            return movieList.size();
+        }
 
     }
 

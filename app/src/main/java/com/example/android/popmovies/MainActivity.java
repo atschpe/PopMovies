@@ -50,7 +50,9 @@ public class MainActivity extends AppCompatActivity
             mainBinding.alertTv.setVisibility(View.GONE);
             mainBinding.progressPb.setVisibility(View.GONE);
             movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
-            setUpAdapter(this, movieList);
+            if (movieList != null && !movieList.isEmpty()) {
+                setUpAdapter(this, movieList);
+            }
         } else {
             checkNetworkToLoad(); // ensure there is internet.
         }

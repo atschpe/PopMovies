@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.android.popmovies.BuildConfig;
 import com.example.android.popmovies.R;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class NetworkUtils {
         //build the url.
         Uri buildUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
                 .appendEncodedPath(userSelection)
-                .appendQueryParameter(API, ctxt.getString(R.string.movieDB_api_v3))
+                .appendQueryParameter(API, BuildConfig.API_KEY)
                 .build();
         try {
             URL url = new URL(buildUri.toString());

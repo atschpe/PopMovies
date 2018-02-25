@@ -16,13 +16,25 @@
                 android:id="@+id/poster_thumbnail_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="@dimen/detail_image_margin"
                 android:layout_marginStart="@dimen/detail_image_margin"
                 android:layout_marginTop="@dimen/detail_image_margin"
                 android:contentDescription="@string/poster_thumb_contentDescrip"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/ic_launcher" />
+                tools:srcCompat="@mipmap/ic_launcher" />
+
+            <ImageButton
+                android:id="@+id/favourite_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/detail_image_margin"
+                android:layout_marginTop="@dimen/detail_image_margin"
+                android:contentDescription="@string/favourite_button_contDescrip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/favourite_button"
+                android:layout_marginRight="@dimen/detail_image_margin" />
 
             <TextView
                 android:id="@+id/user_rating_label_tv"
@@ -84,6 +96,26 @@
                 app:layout_constraintStart_toStartOf="@+id/synopsis_label_tv"
                 app:layout_constraintTop_toBottomOf="@+id/synopsis_label_tv"
                 tools:text="A couple of lines describing the synopsis of the movie." />
+
+            <TextView
+                android:id="@+id/review_label_tv"
+                style="@style/label"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/review_contDescrip"
+                android:text="@string/reviews_label"
+                app:layout_constraintStart_toStartOf="@+id/synopsis_tv"
+                app:layout_constraintTop_toBottomOf="@+id/synopsis_tv" />
+
+            <include
+                layout="@layout/activity_review"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/detail_text_margin"
+                android:layout_marginRight="@dimen/detail_text_margin"
+                android:layout_marginTop="@dimen/detail_text_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/review_label_tv"
+                app:layout_constraintTop_toBottomOf="@+id/review_label_tv" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

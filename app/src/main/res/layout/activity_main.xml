@@ -8,20 +8,17 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
-            android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
 
-        <TextView
-            android:id="@+id/alert_tv"
+        <include
+            layout="@layout/activity_alert"
+            android:id="@+id/alert_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:gravity="center"
-            android:background="@color/colorAccent"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"
+            android:layout_marginEnd="@dimen/detail_image_margin"
+            android:layout_marginStart="@dimen/detail_image_margin"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -14,11 +14,12 @@
     <string name="synopsis_label_ContDescrip">Synopsis</string>
     <string name="synopsis_label">Synopsis:</string>
     <string name="release_date_label">Release Date:</string>
-    <string name="release_date_label_contDescrip">Release Date Label</string>
+    <string name="release_date_label_contDescrip">Release date label</string>
     <string name="release_date_contDescrip">Release Date of Movie</string>
     <string name="user_rating_label">User Rating Label</string>
     <string name="user_rating_label_contDescrip">User Rating:</string>
     <string name="user_rating">User Rating</string>
+    <style name="reviews_label_ContDescrip">review label</style>
 
     <!--Saving data-->
 
@@ -29,5 +30,10 @@
     <string name="rated_sort_label">Sort by top rated</string>
     <string name="title_activity_setting">Settings</string>
     <string name="poster_thumb_contentDescrip">Thumbnail of Poster</string>
+    <string name="author_review_contentDescrip">Author of review</string>
+    <string name="review_contDescrip">Review @android:string/paste_as_plain_text</string>
+    <string name="reviews_label">Reviews:</string>
+    <string name="favourite_button_contDescrip">favourite button</string>
+    <string name="alert_icon_contentDescrip">Alert icon</string>
 
 </resources>

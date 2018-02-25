@@ -13,14 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.android.popmovies.data.Movie;
+import com.example.android.popmovies.data.MovieContract.MovieEntry;
 import com.example.android.popmovies.data.PosterAdapter;
 import com.example.android.popmovies.databinding.ActivityMainBinding;
 import com.example.android.popmovies.utils.JsonUtils;
+import com.example.android.popmovies.utils.MovieUtils;
 import com.example.android.popmovies.utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(INSTANTESTATE_KEY)) {
-            mainBinding.alertTv.setVisibility(View.GONE);
+            mainBinding.alertView.alertTv.setVisibility(View.GONE);
             mainBinding.progressPb.setVisibility(View.GONE);
             movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
             if (movieList != null && !movieList.isEmpty()) {
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 
-        mainBinding.alertTv.setOnClickListener(new View.OnClickListener() {
+        mainBinding.alertView.alertTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkNetworkToLoad();
@@ -101,11 +104,11 @@ public class MainActivity extends AppCompatActivity
         NetworkInfo netInfo = connectMan.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             getSupportLoaderManager().destroyLoader(LOADER_ID);
-            mainBinding.alertTv.setVisibility(View.GONE);
+            mainBinding.alertView.alertTv.setVisibility(View.GONE);
             getSupportLoaderManager().initLoader(LOADER_ID, null, this);
         } else {
-            mainBinding.alertTv.setVisibility(View.VISIBLE);
-            mainBinding.alertTv.setText(getString(R.string.no_internet));
+            mainBinding.alertView.alertTv.setVisibility(View.VISIBLE);
+            mainBinding.alertView.alertTv.setText(getString(R.string.no_internet));
             mainBinding.progressPb.setVisibility(View.GONE);
         }
     }
@@ -125,7 +128,6 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
-
     }
 
     @Override
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int id, Bundle args) {
-        mainBinding.alertTv.setVisibility(View.GONE);
+        mainBinding.alertView.alertTv.setVisibility(View.GONE);
         return new AsyncTaskLoader<ArrayList<Movie>>(this) {
 
             private String url; //the url used to make the server call
@@ -156,17 +158,19 @@ public class MainActivity extends AppCompatActivity
             public ArrayList<Movie> loadInBackground() {
 
                 try {
-                    url = NetworkUtils.getResponseFromHttpUrl(MainActivity.this);
+                    url = NetworkUtils.getResponseFromHttpUrl(MainActivity.this,
+                            NetworkUtils.SORTED_URL, 0);
                     movieList = JsonUtils.getMovieList(url);
                     return movieList;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Log.e(LOG_TAG, "Aynctask; IOExcetion: " + e);
                     return null;
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.e(LOG_TAG, "Asnyctask; JSONException: " + e);
                     return null;
                 }
-
             }
         };
     }
@@ -176,16 +180,17 @@ public class MainActivity extends AppCompatActivity
         mainBinding.progressPb.setVisibility(View.GONE);
 
         if (data == null) { //highly unlikely, with the current options, but better safe than sorry.
-            mainBinding.alertTv.setText(R.string.no_data);
+            mainBinding.alertView.alertTv.setText(R.string.no_data);
         } else {
-            mainBinding.alertTv.setVisibility(View.GONE);
+            mainBinding.alertView.alertTv.setVisibility(View.GONE);
             setUpAdapter(this, data);
+             MovieUtils.saveLoadedDataToDb(MovieEntry.CONTENT_URI, data, this);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
-
+        // no action on reset required, as it is not used.
     }
 
     @Override

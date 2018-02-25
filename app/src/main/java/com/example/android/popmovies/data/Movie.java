@@ -13,15 +13,17 @@ public class Movie implements Parcelable {
     private String mvSynopsis; //e.g. "A long(er) running text describing the storyline of the film."
     private double mvRating; // e.g. 6.4
     private String mvRelease; // e.g. 2010-01-01
+    private int mvId; // e.g. 123456
 
     //used by DetailActivity
     public Movie(String mvPoster, String mvTitle, String mvSynopsis, double mvRating,
-                 String mvRelease) {
+                 String mvRelease, int mvId) {
         this.mvPoster = mvPoster;
         this.mvTitle = mvTitle;
         this.mvSynopsis = mvSynopsis;
         this.mvRating = mvRating;
         this.mvRelease = mvRelease;
+        this.mvId = mvId;
     }
 
     private Movie(Parcel in) {
@@ -30,6 +32,7 @@ public class Movie implements Parcelable {
         mvSynopsis = in.readString();
         mvRating = in.readDouble();
         mvRelease = in.readString();
+        mvId = in.readInt();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -78,4 +81,7 @@ public class Movie implements Parcelable {
         return mvRelease;
     }
 
+    public int getMvId() {
+        return mvId;
+    }
 }

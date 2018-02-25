@@ -19,4 +19,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="text.review">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="label.review">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

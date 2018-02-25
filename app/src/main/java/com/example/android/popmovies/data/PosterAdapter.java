@@ -52,7 +52,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
      */
     @Override
     public PosterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_poster, parent, false);
+        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_poster,
+                parent, false);
         root.setFocusable(true);
         return new PosterViewHolder(root);
     }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_corners">
+
+        <TextView
+            android:id="@+id/review_author_tv"
+            style="@style/label.review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/detail_text_margin"
+            android:layout_marginLeft="@dimen/detail_text_margin"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:contentDescription="@string/author_review_contentDescrip"
+            app:layout_constraintBottom_toBottomOf="@+id/review_content_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/review_content_tv"
+            tools:text="Author Name: " />
+
+        <TextView
+            android:id="@+id/review_content_tv"
+            style="@style/text.review"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/detail_text_margin"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/review_contDescrip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/review_author_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Here the view by the author in question is displayed." />
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -43,7 +43,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + MovieEntry.MOVIE_SYNOPSIS + TEXT_REQ + COMMA
                 + MovieEntry.MOVIE_REVIEW + TEXT_REQ + COMMA
                 + MovieEntry.MOVIE_TRAILER + TEXT_REQ + COMMA
-                + MovieEntry.MOVIE_SORTER + INT_REQ + COMMA
+                + MovieEntry.MOVIE_LIST_POPULAR + INT_REQ + COMMA
+                + MovieEntry.MOVIE_LIST_RATED + INT_REQ + COMMA
                 + MovieEntry.MOVIE_FAVOURITED + INT_REQ + CLOSE;
 
         Log.v(LOG_TAG, "Sqlite creator string : " + SQL_CREATE_MOVIE_TABLE);

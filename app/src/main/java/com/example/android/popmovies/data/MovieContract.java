@@ -10,7 +10,7 @@ public class MovieContract {
 
     public static final String CONTENT_AUTH = "com.example.android.popmovies";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTH);
-    public static final String PATH_MOVIE = "movie"; //TODO: java.lang.NumberFormatException: For input string: "movie"
+    public static final String PATH_MOVIE = "movie";
 
     public static final class MovieEntry {
 
@@ -34,8 +34,8 @@ public class MovieContract {
         public static String MOVIE_RELEASE = "release";
         public static String MOVIE_TRAILER = "trailer";
         public static String MOVIE_REVIEW = "review";
-        public static String MOVIE_SORTER = "sorter";
-        public static String MOVIE_SORT_ID = "sort_id";
-        public static String MOVIE_FAVOURITED = "favourited";
+        public static String MOVIE_LIST_POPULAR = "popular_list"; //boolean
+        public static String MOVIE_LIST_RATED = "rated"; //boolean
+        public static String MOVIE_FAVOURITED = "favourited"; //boolean
     }
 }

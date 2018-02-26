@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 
 import com.example.android.popmovies.R;
 import com.example.android.popmovies.data.Movie;
+import com.example.android.popmovies.data.MovieContract;
 import com.example.android.popmovies.data.MovieContract.MovieEntry;
 
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ import java.util.ArrayList;
  */
 public class MovieUtils {
 
-    private static final int POPULAR_SORT = 0;
-    private static final int RATED_SORT = 1;
+    private static final int SELECTED_SORT_METHOD = 1;
+    private static final int SORT_METHOD_NOT_SELECTED = 0;
 
     public static boolean isPopularSort(Context ctxt) {
         SharedPreferences sharedPref = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(ctxt);
@@ -38,31 +39,21 @@ public class MovieUtils {
 
         ContentResolver movieContentResolver = ctxt.getContentResolver();
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctxt);
 
         //Check existing database for duplicates and remove these, so that the data is always
         // up to date and the correct & latest info is displayed.
+        String selection;
+        String[] selectionArgs;
         if (movieContentResolver != null) {
-            String selection = MovieEntry.MOVIE_ID + "=?";
-            String[] selectionArgs = new String[]{String.valueOf(MovieEntry.MOVIE_ID)};
-            Cursor movieIds = movieContentResolver.query(uri, null, selection,
-                    selectionArgs, null);
 
-            if (movieIds != null) {
-                movieIds.moveToFirst();
-                while (movieIds.moveToNext()) {
-                    for (int i = 0; i < movieList.size(); i++) {
-                        Movie currentMovie = movieList.get(i);
-                        int dbIdIndex = movieIds.getColumnIndex(MovieEntry.MOVIE_ID);
-                        int dbId = movieIds.getInt(dbIdIndex);
-                        if (dbId == currentMovie.getMvId()) {
-                            long id = movieIds.getLong(movieIds.getColumnIndex(MovieEntry.MOVIE_ID));
-                            Uri currentItem = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, id);
-                            movieContentResolver.delete(currentItem, null, null);
-                        }
-                    }
-                }
+            if (isPopularSort(ctxt)) {
+                selection = MovieEntry.MOVIE_LIST_POPULAR + "LIKE ?";
+                selectionArgs = new String[]{String.valueOf(SELECTED_SORT_METHOD)};
+            } else {
+                selection = MovieEntry.MOVIE_LIST_RATED + "LIKE ?";
+                selectionArgs = new String[]{String.valueOf(SELECTED_SORT_METHOD)};
             }
+            movieContentResolver.delete(uri, selection, selectionArgs);
         }
 
         // Write the data to the database.
@@ -70,11 +61,6 @@ public class MovieUtils {
 
         for (int i = 0; i < movieList.size(); i++) {
             Movie currentMovie = movieList.get(i);
-
-            int sort;
-            if (isPopularSort(ctxt)) sort = POPULAR_SORT;
-            else sort = RATED_SORT;
-
 
             //collecting the data
             // Movie Constructor: String mvPoster, String mvTitle, String mvSynopsis,
@@ -94,14 +80,18 @@ public class MovieUtils {
             movieValues.put(MovieEntry.MOVIE_RATING, movieRating);
             movieValues.put(MovieEntry.MOVIE_RELEASE, movieRelease);
             movieValues.put(MovieEntry.MOVIE_SYNOPSIS, movieSynopsis);
-            movieValues.put(MovieEntry.MOVIE_SORTER, sort);
-            movieValues.put(MovieEntry.MOVIE_SORT_ID, i);
+            if (isPopularSort(ctxt)) {
+                movieValues.put(MovieEntry.MOVIE_LIST_POPULAR, SELECTED_SORT_METHOD);
+                movieValues.put(MovieEntry.MOVIE_LIST_RATED, SORT_METHOD_NOT_SELECTED);
+            } else {
+                movieValues.put(MovieEntry.MOVIE_LIST_POPULAR, SORT_METHOD_NOT_SELECTED);
+                movieValues.put(MovieEntry.MOVIE_LIST_RATED, SELECTED_SORT_METHOD);
+            }
+            movieValues.put(MovieEntry.MOVIE_LIST_RATED, i);
 
             movieContentValues[i] = movieValues;
         }
 
         movieContentResolver.bulkInsert(uri, movieContentValues);
     }
-
 }
-

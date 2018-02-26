@@ -34,7 +34,7 @@ public class MovieProvider extends ContentProvider {
         final String contract = MovieContract.PATH_MOVIE;
 
         matcher.addURI(authority, contract, MOVIE_LIST);
-        matcher.addURI(authority, contract, MOVIE_ENTRY);
+        matcher.addURI(authority, contract + "/#", MOVIE_ENTRY);
         return matcher;
     }
 

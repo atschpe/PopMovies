@@ -184,7 +184,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             mainBinding.alertView.alertTv.setVisibility(View.GONE);
             setUpAdapter(this, data);
-             MovieUtils.saveLoadedDataToDb(MovieEntry.CONTENT_URI, data, this);
         }
     }
 

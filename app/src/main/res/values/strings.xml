@@ -35,5 +35,9 @@
     <string name="reviews_label">Reviews:</string>
     <string name="favourite_button_contDescrip">favourite button</string>
     <string name="alert_icon_contentDescrip">Alert icon</string>
+    <string name="fav_added">This movie was added to your favourites.</string>
+    <string name="error_adding_fav">An error occurred when trying to add this movie to your favourites.</string>
+    <string name="error_removing_fav">An error occurred when trying to remove this movie from your favourite list.</string>
+    <string name="fav_removed">This movie has been removed from your favourite list.</string>
 
 </resources>

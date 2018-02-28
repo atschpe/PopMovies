@@ -59,6 +59,7 @@ public class Movie implements Parcelable {
         dest.writeString(mvSynopsis);
         dest.writeDouble(mvRating);
         dest.writeString(mvRelease);
+        dest.writeInt(mvId);
     }
 
     public String getMvPoster() {

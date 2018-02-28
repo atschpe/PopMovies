@@ -26,14 +26,16 @@
 
             <ImageButton
                 android:id="@+id/favourite_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginEnd="@dimen/detail_image_margin"
                 android:layout_marginTop="@dimen/detail_image_margin"
                 android:contentDescription="@string/favourite_button_contDescrip"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/favourite_button"
+                app:srcCompat="@drawable/ic_star"
+                android:tint="@android:color/darker_gray"
+                android:background="@android:color/transparent"
                 android:layout_marginRight="@dimen/detail_image_margin" />
 
             <TextView

@@ -26,6 +26,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     private static final String START = " (";
     private static final String CLOSE = ");";
     private static final String COMMA = " ,";
+    private static final String INT_AUTO = " INTEGER PRIMARY KEY AUTOINCREMENT";
     private static final String INT_REQ = " INTEGER NOT NULL";
     private static final String TEXT_REQ = " TEXT NOT NULL";
     private static final String REAL_REQ = " REAL NOT NULL";
@@ -35,19 +36,14 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_MOVIE_TABLE = CREATE + MovieEntry.TABLE_NAME + START
+                + MovieEntry._ID + INT_AUTO + COMMA
                 + MovieEntry.MOVIE_ID + INT_REQ + COMMA
                 + MovieEntry.MOVIE_ORG_TITLE + TEXT_REQ + COMMA
                 + MovieEntry.MOVIE_POSTER + TEXT_REQ + COMMA
                 + MovieEntry.MOVIE_RATING + REAL_REQ + COMMA
                 + MovieEntry.MOVIE_RELEASE + TEXT_REQ + COMMA
-                + MovieEntry.MOVIE_SYNOPSIS + TEXT_REQ + COMMA
-                + MovieEntry.MOVIE_REVIEW + TEXT_REQ + COMMA
-                + MovieEntry.MOVIE_TRAILER + TEXT_REQ + COMMA
-                + MovieEntry.MOVIE_LIST_POPULAR + INT_REQ + COMMA
-                + MovieEntry.MOVIE_LIST_RATED + INT_REQ + COMMA
-                + MovieEntry.MOVIE_FAVOURITED + INT_REQ + CLOSE;
+                + MovieEntry.MOVIE_SYNOPSIS + TEXT_REQ + CLOSE;
 
-        Log.v(LOG_TAG, "Sqlite creator string : " + SQL_CREATE_MOVIE_TABLE);
         db.execSQL(SQL_CREATE_MOVIE_TABLE);
     }
 

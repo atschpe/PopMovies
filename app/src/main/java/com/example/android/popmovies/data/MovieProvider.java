@@ -88,9 +88,10 @@ public class MovieProvider extends ContentProvider {
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
+
         long id;
         switch (getMatch(uri)) {
-            case MOVIE_ENTRY:
+            case MOVIE_LIST:
                 id = dbWrite.insert(MovieEntry.TABLE_NAME, null, values);
                 if (id == -1) {
                     Log.e(LOG_TAG, "Row could not be inserted for " + uri);
@@ -98,7 +99,7 @@ public class MovieProvider extends ContentProvider {
                 notifyResolver(uri);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown uri " + uri + "with match " + getMatch(uri));
+                throw new IllegalArgumentException("Unknown uri " + uri + " with match " + getMatch(uri));
         }
         return ContentUris.withAppendedId(uri, id); // return new uri and id of row inserted.
     }

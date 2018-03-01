@@ -69,7 +69,7 @@ public class MovieProvider extends ContentProvider {
                         + uri);
         }
         csr.setNotificationUri(getContext().getContentResolver(), uri);
-        return null;
+        return csr;
     }
 
     @Nullable
@@ -148,7 +148,7 @@ public class MovieProvider extends ContentProvider {
         if (deletedRows != 0) {
             notifyResolver(uri);
         }
-        return 0;
+        return deletedRows;
     }
 
     @Override

@@ -87,6 +87,7 @@
             <TextView
                 android:id="@+id/review_label_tv"
                 style="@style/label"
+                android:layout_marginLeft="@dimen/text_land"
                 android:layout_marginStart="@dimen/text_land"
                 android:contentDescription="@string/review_contDescrip"
                 android:text="@string/reviews_label"
@@ -108,21 +109,21 @@
                 style="@style/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_land"
+                android:layout_marginTop="8dp"
                 android:contentDescription="@string/trailer_label_contDescrip"
                 android:text="@string/trailer_label"
-                app:layout_constraintStart_toStartOf="@+id/review_rv"
-                app:layout_constraintTop_toBottomOf="@+id/review_rv" />
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/synopsis_tv" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailer_rv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/text_land"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/text_land"
-                android:background="@drawable/rounded_corners"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/trailer_label_tv"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
                 app:layout_constraintTop_toBottomOf="@+id/trailer_label_tv" />
 
             <include
@@ -130,8 +131,9 @@
                 layout="@layout/activity_alerts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="@dimen/detail_text_margin"
+                android:layout_marginEnd="@dimen/text_land"
+                android:layout_marginRight="@dimen/text_land"
+                android:layout_marginTop="@dimen/text_land"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/trailer_label_tv"
@@ -140,11 +142,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/review_rv"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="@dimen/text_land"
-                android:layout_marginRight="@dimen/text_land"
                 android:layout_marginTop="@dimen/text_land"
-                android:background="@drawable/rounded_corners"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="@+id/review_label_tv"
                 app:layout_constraintTop_toBottomOf="@+id/review_label_tv" />

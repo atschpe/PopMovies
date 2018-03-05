@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 
 import com.example.android.popmovies.BuildConfig;
 import com.example.android.popmovies.R;
@@ -38,10 +37,7 @@ public class NetworkUtils {
         String sortKey = ctxt.getString(R.string.display_key);
         String sortDefault = ctxt.getString(R.string.popularity_display_label_default);
         String sortPreference = sharedPref.getString(sortKey, sortDefault);
-        if (sortDefault.equals(sortPreference)) {
-            return true;
-        } else
-            return false;
+        return sortDefault.equals(sortPreference);
     }
 
     /**
@@ -87,8 +83,7 @@ public class NetworkUtils {
                 break;
         }
         try {
-            URL url = new URL(buildUri.toString());
-            return url;
+            return new URL(buildUri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

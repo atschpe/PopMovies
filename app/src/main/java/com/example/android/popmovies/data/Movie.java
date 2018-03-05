@@ -25,12 +25,11 @@ public class Movie implements Parcelable {
         this.mvId = mvId;
     }
 
-    public Movie(String moviePoster, int movieId) {
+    public Movie(String mvPoster, int mvId) {
         this.mvPoster = mvPoster;
         this.mvId = mvId;
     }
 
-    //to display
     public Movie(Parcel in) {
         mvPoster = in.readString();
         mvTitle = in.readString();

@@ -16,6 +16,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
 
-    static String LOG_TAG = DetailActivity.class.getSimpleName();
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     //Keys for parcels
     public static final String SELECTED_KEY = "selectedMovie";
@@ -51,7 +52,6 @@ public class DetailActivity extends AppCompatActivity {
     private ActivityDetailBinding detailBinding;
     private Movie selectedMovie;
     private boolean isFavourited;
-    private Menu menu;
 
     //adapters and data for the reviews and trailers.
     private ReviewAdapter reviewAdapter;
@@ -74,12 +74,14 @@ public class DetailActivity extends AppCompatActivity {
                 if (reviewList != null && !reviewList.isEmpty()) {
                     setupReviewAdapter(this, reviewList);
                 }
-            } else if (savedInstanceState.containsKey(TRAILERLIST_KEY)) {
+            }
+            if (savedInstanceState.containsKey(TRAILERLIST_KEY)) {
                 detailBinding.alertViewTrailer.alertTv.setVisibility(View.GONE);
                 detailBinding.alertViewTrailer.progressPb.setVisibility(View.GONE);
                 trailerList = savedInstanceState.getParcelableArrayList(TRAILERLIST_KEY);
                 if (trailerList != null && !trailerList.isEmpty()) {
                     setupTrailerAdapter(this, trailerList);
+                    Log.v(LOG_TAG, "trailerList: " + trailerList.size());
                 }
             }
         } else {
@@ -143,11 +145,8 @@ public class DetailActivity extends AppCompatActivity {
         String[] selectionArgs = new String[]{String.valueOf(selectedMovie.getMvId())};
         Cursor csr = getContentResolver().query(MovieEntry.CONTENT_URI, projection, selection,
                 selectionArgs, null);
-        int movieId = 0;
         if (csr != null && csr.getCount() > 0) {
             isFavourited = true;
-            csr.moveToFirst();
-            movieId = csr.getInt(csr.getColumnIndex(MovieEntry.MOVIE_ID));
             csr.close();
         } else {
             isFavourited = false;
@@ -157,14 +156,13 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getFavourited();
-        this.menu = menu;
         getMenuInflater().inflate(R.menu.detail_menu, menu);
 
         MenuItem favouriteIcon = menu.findItem(R.id.detail_fav_bt);
         if (isFavourited) {
-            tintMenuIcon(this, favouriteIcon, R.color.colorAccent);
+            tintFavButton(this, favouriteIcon, R.color.colorAccent);
         } else {
-            tintMenuIcon(this, favouriteIcon, android.R.color.black);
+            tintFavButton(this, favouriteIcon, android.R.color.black);
         }
         return true;
     }
@@ -176,7 +174,7 @@ public class DetailActivity extends AppCompatActivity {
         switch (id) {
             case R.id.detail_fav_bt:
                 if (!isFavourited) {
-                    tintMenuIcon(this, item, R.color.colorAccent);
+                    tintFavButton(this, item, R.color.colorAccent);
                     Uri addedFav = getContentResolver()
                             .insert(MovieEntry.CONTENT_URI, getMovieValues());
                     if (addedFav == null) { //error occurred during saving
@@ -188,7 +186,7 @@ public class DetailActivity extends AppCompatActivity {
                         isFavourited = false;
                     }
                 } else {
-                    tintMenuIcon(this, item, android.R.color.black);
+                    tintFavButton(this, item, android.R.color.black);
                     String selection = MovieEntry.MOVIE_ID + "=?";
                     String[] selectionArgs = new String[]{String.valueOf(selectedMovie.getMvId())};
                     int favDeleted = getContentResolver()
@@ -206,8 +204,9 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Tint the favourited star to show whether selected or not. Based on stackoverflow:
     // https://futurestud.io/tutorials/android-quick-tips-8-how-to-dynamically-tint-actionbar-menu-icons
-    public static void tintMenuIcon(Context ctxt, MenuItem item, @ColorRes int color) {
+    private static void tintFavButton(Context ctxt, MenuItem item, @ColorRes int color) {
         Drawable icon = item.getIcon();
         Drawable wrapper = DrawableCompat.wrap(icon);
         DrawableCompat.setTint(wrapper, ctxt.getResources().getColor(color));
@@ -215,7 +214,7 @@ public class DetailActivity extends AppCompatActivity {
         item.setIcon(wrapper);
     }
 
-    ContentValues getMovieValues() {
+    private ContentValues getMovieValues() {
         ContentValues movieValues = new ContentValues();
         movieValues.put(MovieEntry.MOVIE_ID, selectedMovie.getMvId());
         movieValues.put(MovieEntry.MOVIE_ORG_TITLE, selectedMovie.getMvTitle());
@@ -237,8 +236,7 @@ public class DetailActivity extends AppCompatActivity {
     private void setupTrailerAdapter(Context ctxt, ArrayList<Trailer> trailerList) {
         trailerAdapter = new TrailerAdapter(this, trailerList);
         detailBinding.trailerRv.setAdapter(trailerAdapter);
-        detailBinding.trailerRv.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
+        detailBinding.trailerRv.setLayoutManager(new GridLayoutManager(ctxt, 4));
         trailerAdapter.notifyDataSetChanged();
     }
 
@@ -249,7 +247,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    private LoaderManager.LoaderCallbacks<ArrayList<Review>> reviewCaller =
+    private final LoaderManager.LoaderCallbacks<ArrayList<Review>> reviewCaller =
             new LoaderManager.LoaderCallbacks<ArrayList<Review>>() {
                 @Override
                 public Loader<ArrayList<Review>> onCreateLoader(int id, Bundle args) {
@@ -303,7 +301,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
             };
 
-    private LoaderManager.LoaderCallbacks<ArrayList<Trailer>> trailerCaller =
+    private final LoaderManager.LoaderCallbacks<ArrayList<Trailer>> trailerCaller =
             new LoaderManager.LoaderCallbacks<ArrayList<Trailer>>() {
 
                 @Override
@@ -316,7 +314,6 @@ public class DetailActivity extends AppCompatActivity {
 
                         @Override
                         protected void onStartLoading() {
-                            Log.v(LOG_TAG, "onstartinLoading called");
                             if (trailerList != null) {
                                 deliverResult(trailerList);
                             } else {
@@ -327,7 +324,6 @@ public class DetailActivity extends AppCompatActivity {
 
                         @Override
                         public ArrayList<Trailer> loadInBackground() {
-                            Log.v(LOG_TAG, "loadInBackground called");
                             try {
                                 url = NetworkUtils.getResponseFromHttpUrl(DetailActivity.this,
                                         NetworkUtils.TRAILER_URL, selectedMovie.getMvId());

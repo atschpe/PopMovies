@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         implements LoaderCallbacks<ArrayList<Movie>>,
         SharedPreferences.OnSharedPreferenceChangeListener, PosterAdapter.PosterClickHandler {
 
-    String LOG_TAG = MainActivity.class.getSimpleName();
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private PosterAdapter posterAdapter;
     private ActivityMainBinding mainBinding;
@@ -122,16 +122,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    boolean displayFavourites() { //does the user want to view thier favourited movies?
+    private boolean displayFavourites() { //does the user want to view their favourited movies?
         SharedPreferences sharedPref = getDefaultSharedPreferences(this);
         String sortKey = getString(R.string.display_key);
         String sortDefault = getString(R.string.popularity_display_label_default);
         String sortPreference = sharedPref.getString(sortKey, sortDefault);
-        if (sortPreference.equals(getString(R.string.favourite_display_label))) {
-            return true;
-        } else {
-            return false;
-        }
+        return sortPreference.equals(getString(R.string.favourite_display_label));
     }
 
     @Override
@@ -189,11 +185,9 @@ public class MainActivity extends AppCompatActivity
                     return movieList;
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e(LOG_TAG, "Aynctask; IOExcetion: " + e);
                     return null;
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e(LOG_TAG, "Asnyctask; JSONException: " + e);
                     return null;
                 }
             }
@@ -208,7 +202,6 @@ public class MainActivity extends AppCompatActivity
             mainBinding.alertViewMain.alertTv.setText(R.string.no_data);
         } else {
             mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
-            Log.v(LOG_TAG, "movelist content: " + data.get(0).getMvPoster());
             setUpAdapter(this, data);
         }
     }
@@ -218,7 +211,7 @@ public class MainActivity extends AppCompatActivity
         // no action on reset required, as it is not used.
     }
 
-    private LoaderManager.LoaderCallbacks<Cursor> favouriteCaller = new LoaderCallbacks<Cursor>() {
+    private final LoaderManager.LoaderCallbacks<Cursor> favouriteCaller = new LoaderCallbacks<Cursor>() {
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
@@ -244,7 +237,6 @@ public class MainActivity extends AppCompatActivity
                     String moviePoster = data.getString(data.getColumnIndex(MovieEntry.MOVIE_POSTER));
                     int movieId = data.getInt(data.getColumnIndex(MovieEntry.MOVIE_ID));
                     movieList.add(new Movie(moviePoster, movieId));
-                    Log.v(LOG_TAG, "movelist content: " + movieList.get(0).getMvPoster());
                 }
                 setUpAdapter(MainActivity.this, movieList);
             }

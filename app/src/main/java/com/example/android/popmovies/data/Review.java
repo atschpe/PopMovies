@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by HildePols on 24.02.18.
+ * {@ink Review} is an object containing all information needed for the reviews to be displayed.
  */
 
 public class Review implements Parcelable {
@@ -13,7 +13,13 @@ public class Review implements Parcelable {
     private String reviewAuthor;
     private String reviewContent;
 
-    public Review(int    mvId, String reviewAuthor, String reviewContent) {
+    /** Constructor
+     *
+     * @param mvId is the id of the movie, so as to keep track of the movie across the objects.
+     * @param reviewAuthor is the writer of the review
+     * @param reviewContent is the review itself.
+     */
+    public Review(int mvId, String reviewAuthor, String reviewContent) {
         this.mvId = mvId;
         this.reviewAuthor = reviewAuthor;
         this.reviewContent = reviewContent;

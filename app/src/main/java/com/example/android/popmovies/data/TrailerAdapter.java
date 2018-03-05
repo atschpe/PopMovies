@@ -23,8 +23,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     private static final String LOG_TAG = TrailerAdapter.class.getSimpleName();
 
-    private Context ctxt;
-    private ArrayList<Trailer> trailerList;
+    private final Context ctxt;
+    private final ArrayList<Trailer> trailerList;
 
     public TrailerAdapter(Context ctxt, ArrayList<Trailer> trailerList) {
         this.ctxt = ctxt;
@@ -80,8 +80,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     public class TrailerViewHolder extends RecyclerView.ViewHolder {
 
-        ImageButton trailerPlayBt;
-        TextView trailerTitleTv;
+        final ImageButton trailerPlayBt;
+        final TextView trailerTitleTv;
 
         public TrailerViewHolder(View itemView) {
             super(itemView);

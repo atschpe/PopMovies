@@ -25,15 +25,15 @@ public class MovieContract {
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/"
                 + CONTENT_AUTH + PATH_MOVIE;
 
-        public static String TABLE_NAME = "movies";
-        public static String _ID = BaseColumns._ID;
+        public static final String TABLE_NAME = "movies";
+        public static final String _ID = BaseColumns._ID;
 
-        public static String MOVIE_ID = "movie_id";
-        public static String MOVIE_ORG_TITLE = "title";
-        public static String MOVIE_POSTER = "poster";
-        public static String MOVIE_SYNOPSIS = "Synposis";
-        public static String MOVIE_RATING = "rating";
-        public static String MOVIE_RELEASE = "release";
+        public static final String MOVIE_ID = "movie_id";
+        public static final String MOVIE_ORG_TITLE = "title";
+        public static final String MOVIE_POSTER = "poster";
+        public static final String MOVIE_SYNOPSIS = "Synopsis";
+        public static final String MOVIE_RATING = "rating";
+        public static final String MOVIE_RELEASE = "release";
 
     }
 }

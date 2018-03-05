@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corners">
+
+    <ImageButton
+        android:id="@+id/trailer_play_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/detail_image_margin"
+        android:layout_marginStart="@dimen/detail_image_margin"
+        android:layout_marginTop="@dimen/detail_image_margin"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/play_button_contDescrip"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_media_play_light" />
+
+    <TextView
+        android:id="@+id/trailer_title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/detail_text_margin"
+        android:layout_marginEnd="@dimen/detail_text_margin"
+        android:layout_marginStart="@dimen/detail_text_margin"
+        android:ellipsize="none"
+        android:maxLines="5"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trailer_play_bt"
+        tools:text="Title of trailer goes here" />
+</android.support.constraint.ConstraintLayout>

@@ -13,23 +13,13 @@
             android:scrollbars="vertical" />
 
         <include
-            layout="@layout/activity_alert"
-            android:id="@+id/alert_view"
+            android:id="@+id/alert_view_main"
+            layout="@layout/activity_alerts"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/detail_image_margin"
             android:layout_marginStart="@dimen/detail_image_margin"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/progress_pb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

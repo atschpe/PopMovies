@@ -105,33 +105,6 @@ public class MovieProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
-        switch (getMatch(uri)) {
-            case MOVIE_LIST:
-                dbWrite.beginTransaction();
-                int rowsInserted = 0;
-                try {
-                    for (ContentValues value : values) {
-                        long id = dbWrite.insert(MovieEntry.TABLE_NAME, null, value);
-                        if (id != -1) {
-                            rowsInserted++;
-                        }
-                    }
-                    dbWrite.setTransactionSuccessful();
-                } finally {
-                    dbWrite.endTransaction();
-                }
-                if (rowsInserted > 0) {
-                    notifyResolver(uri);
-                }
-                return rowsInserted;
-
-            default:
-                return super.bulkInsert(uri, values);
-        }
-    }
-
-    @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         int deletedRows = 0;
         switch (getMatch(uri)) {

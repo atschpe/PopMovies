@@ -1,12 +1,10 @@
 package com.example.android.popmovies.utils;
 
-import android.content.ContentUris;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 
 import com.example.android.popmovies.BuildConfig;
 import com.example.android.popmovies.R;
@@ -17,7 +15,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
-import java.util.StringJoiner;
 
 /**
  * {@link NetworkUtils} carries out and supports any internet calls.
@@ -36,6 +33,17 @@ public class NetworkUtils {
     public static final int REVIEW_URL = 1;
     public static final int TRAILER_URL = 2;
 
+    private static boolean isPopularSort(Context ctxt) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctxt);
+        String sortKey = ctxt.getString(R.string.display_key);
+        String sortDefault = ctxt.getString(R.string.popularity_display_label_default);
+        String sortPreference = sharedPref.getString(sortKey, sortDefault);
+        if (sortDefault.equals(sortPreference)) {
+            return true;
+        } else
+            return false;
+    }
+
     /**
      * Build the needed url to make the desired server call.
      *
@@ -51,7 +59,7 @@ public class NetworkUtils {
 
 
                 //get the user's preference of how to sort the grid.
-                if (MovieUtils.isPopularSort(ctxt)) {
+                if (isPopularSort(ctxt)) {
                     userSelection = POPULAR_SEGMENT;
                 } else {
                     userSelection = RATED_SEGMENT;
@@ -79,15 +87,12 @@ public class NetworkUtils {
                 break;
         }
         try {
-
             URL url = new URL(buildUri.toString());
-            Log.v("NetworkUtils", "url: " + url);
             return url;
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
         }
-
     }
 
     public static String getResponseFromHttpUrl(Context ctxt, int urlType, long mvId) throws IOException {
@@ -107,20 +112,6 @@ public class NetworkUtils {
             return response;
         } finally {
             urlConnect.disconnect();
-        }
-    }
-
-    //If there is no internet display a message prompting the user to check it.
-    //based on: https://stackoverflow.com/a/4009133 as pointed out in the project guidelines
-    public static boolean checkNetworkToLoad(Context ctxt) {
-        ConnectivityManager connectMan = (ConnectivityManager)
-                ctxt.getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert connectMan != null;
-        NetworkInfo netInfo = connectMan.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
         }
     }
 }

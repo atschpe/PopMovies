@@ -94,8 +94,8 @@
                 app:layout_constraintStart_toStartOf="@+id/synopsis_tv"
                 app:layout_constraintTop_toBottomOf="@+id/synopsis_tv" />
 
-            <include
-                layout="@layout/activity_review"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/review_rv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/detail_text_margin"
@@ -105,6 +105,54 @@
                 app:layout_constraintStart_toStartOf="@+id/review_label_tv"
                 app:layout_constraintTop_toBottomOf="@+id/review_label_tv" />
 
+            <include
+                android:id="@+id/alert_view_review"
+                layout="@layout/activity_alerts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/detail_text_margin"
+                android:layout_marginRight="@dimen/detail_text_margin"
+                android:layout_marginTop="@dimen/detail_text_margin"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/review_label_tv"
+                app:layout_constraintTop_toBottomOf="@+id/review_label_tv" />
+
+            <TextView
+                android:id="@+id/trailer_label_tv"
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/trailer_label_contDescrip"
+                android:text="@string/trailer_label"
+                app:layout_constraintStart_toStartOf="@+id/review_rv"
+                app:layout_constraintTop_toBottomOf="@+id/review_rv" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/trailer_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/detail_text_margin"
+                android:layout_marginRight="@dimen/detail_text_margin"
+                android:layout_marginTop="@dimen/detail_text_margin"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/trailer_label_tv"
+                app:layout_constraintTop_toBottomOf="@+id/trailer_label_tv" />
+
+            <include
+                android:id="@+id/alert_view_trailer"
+                layout="@layout/activity_alerts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/detail_text_margin"
+                android:layout_marginRight="@dimen/detail_text_margin"
+                android:layout_marginTop="@dimen/detail_text_margin"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/trailer_label_tv"
+                app:layout_constraintTop_toBottomOf="@+id/trailer_label_tv" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -2,4 +2,5 @@
 <resources>
     <dimen name="detail_text_margin">8dp</dimen>
     <dimen name="detail_image_margin">16dp</dimen>
+    <dimen name="text_land">16dp</dimen>
 </resources>

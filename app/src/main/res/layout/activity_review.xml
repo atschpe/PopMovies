@@ -6,7 +6,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners">
 
         <TextView
@@ -14,13 +14,12 @@
             style="@style/label.review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/detail_text_margin"
             android:layout_marginLeft="@dimen/detail_text_margin"
             android:layout_marginStart="@dimen/detail_text_margin"
+            android:layout_marginTop="@dimen/detail_text_margin"
             android:contentDescription="@string/author_review_contentDescrip"
-            app:layout_constraintBottom_toBottomOf="@+id/review_content_tv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/review_content_tv"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Author Name: " />
 
         <TextView
@@ -28,13 +27,14 @@
             style="@style/text.review"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/detail_text_margin"
-            android:layout_marginStart="@dimen/detail_text_margin"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/detail_text_margin"
             android:contentDescription="@string/review_contDescrip"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/review_author_tv"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/review_author_tv"
+            app:layout_constraintTop_toBottomOf="@+id/review_author_tv"
             tools:text="Here the view by the author in question is displayed." />
     </android.support.constraint.ConstraintLayout>
 </layout>

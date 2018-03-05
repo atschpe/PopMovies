@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="@string/sort_by_label"
+        android:title="@string/display_label"
         android:id="@+id/sort_menu"
         android:orderInCategory="1"
         app:showAsAction="never">

@@ -3,11 +3,14 @@ package com.example.android.popmovies;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,13 +26,14 @@ import com.example.android.popmovies.data.MovieContract.MovieEntry;
 import com.example.android.popmovies.data.PosterAdapter;
 import com.example.android.popmovies.databinding.ActivityMainBinding;
 import com.example.android.popmovies.utils.JsonUtils;
-import com.example.android.popmovies.utils.MovieUtils;
 import com.example.android.popmovies.utils.NetworkUtils;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderCallbacks<ArrayList<Movie>>,
@@ -41,7 +45,8 @@ public class MainActivity extends AppCompatActivity
     private ActivityMainBinding mainBinding;
     private ArrayList<Movie> movieList;
     private final int LOADER_ID = 1;
-    private static final String INSTANTESTATE_KEY = "movies";
+    private final int FAV_LOADER_ID = 2;
+    private static final String MOVIELIST_KEY = "movies";
     private static boolean preferencesUpdated = false;
 
     @Override
@@ -49,10 +54,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(INSTANTESTATE_KEY)) {
-            mainBinding.alertView.alertTv.setVisibility(View.GONE);
-            mainBinding.progressPb.setVisibility(View.GONE);
-            movieList = savedInstanceState.getParcelableArrayList(INSTANTESTATE_KEY);
+        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIELIST_KEY)) {
+            mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
+            mainBinding.alertViewMain.progressPb.setVisibility(View.GONE);
+            movieList = savedInstanceState.getParcelableArrayList(MOVIELIST_KEY);
             if (movieList != null && !movieList.isEmpty()) {
                 setUpAdapter(this, movieList);
             }
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 
-        mainBinding.alertView.alertTv.setOnClickListener(new View.OnClickListener() {
+        mainBinding.alertViewMain.alertTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkNetworkToLoad();
@@ -104,12 +109,28 @@ public class MainActivity extends AppCompatActivity
         NetworkInfo netInfo = connectMan.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             getSupportLoaderManager().destroyLoader(LOADER_ID);
-            mainBinding.alertView.alertTv.setVisibility(View.GONE);
-            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+            mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
+            if (displayFavourites()) {
+                getSupportLoaderManager().initLoader(FAV_LOADER_ID, null, favouriteCaller);
+            } else {
+                getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+            }
         } else {
-            mainBinding.alertView.alertTv.setVisibility(View.VISIBLE);
-            mainBinding.alertView.alertTv.setText(getString(R.string.no_internet));
-            mainBinding.progressPb.setVisibility(View.GONE);
+            mainBinding.alertViewMain.alertTv.setVisibility(View.VISIBLE);
+            mainBinding.alertViewMain.alertTv.setText(getString(R.string.no_internet));
+            mainBinding.alertViewMain.progressPb.setVisibility(View.GONE);
+        }
+    }
+
+    boolean displayFavourites() { //does the user want to view thier favourited movies?
+        SharedPreferences sharedPref = getDefaultSharedPreferences(this);
+        String sortKey = getString(R.string.display_key);
+        String sortDefault = getString(R.string.popularity_display_label_default);
+        String sortPreference = sharedPref.getString(sortKey, sortDefault);
+        if (sortPreference.equals(getString(R.string.favourite_display_label))) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -118,7 +139,11 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         if (preferencesUpdated) {
             movieList = null;
-            checkNetworkToLoad();
+            if (displayFavourites()) {
+                getSupportLoaderManager().initLoader(FAV_LOADER_ID, null, favouriteCaller);
+            } else {
+                checkNetworkToLoad();
+            }
             preferencesUpdated = false;
         }
     }
@@ -132,14 +157,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(INSTANTESTATE_KEY, movieList);
+        outState.putParcelableArrayList(MOVIELIST_KEY, movieList);
         super.onSaveInstanceState(outState);
     }
 
 
     @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int id, Bundle args) {
-        mainBinding.alertView.alertTv.setVisibility(View.GONE);
+        mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
         return new AsyncTaskLoader<ArrayList<Movie>>(this) {
 
             private String url; //the url used to make the server call
@@ -149,7 +174,7 @@ public class MainActivity extends AppCompatActivity
                 if (movieList != null) {
                     deliverResult(movieList);
                 } else {
-                    mainBinding.progressPb.setVisibility(View.VISIBLE);
+                    mainBinding.alertViewMain.progressPb.setVisibility(View.VISIBLE);
                     forceLoad();
                 }
             }
@@ -177,12 +202,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
-        mainBinding.progressPb.setVisibility(View.GONE);
+        mainBinding.alertViewMain.progressPb.setVisibility(View.GONE);
 
         if (data == null) { //highly unlikely, with the current options, but better safe than sorry.
-            mainBinding.alertView.alertTv.setText(R.string.no_data);
+            mainBinding.alertViewMain.alertTv.setText(R.string.no_data);
         } else {
-            mainBinding.alertView.alertTv.setVisibility(View.GONE);
+            mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
+            Log.v(LOG_TAG, "movelist content: " + data.get(0).getMvPoster());
             setUpAdapter(this, data);
         }
     }
@@ -192,6 +218,44 @@ public class MainActivity extends AppCompatActivity
         // no action on reset required, as it is not used.
     }
 
+    private LoaderManager.LoaderCallbacks<Cursor> favouriteCaller = new LoaderCallbacks<Cursor>() {
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
+            String[] projection = new String[]{
+                    MovieEntry.MOVIE_POSTER,
+                    MovieEntry.MOVIE_ID
+            };
+            return new CursorLoader(MainActivity.this, MovieEntry.CONTENT_URI, projection,
+                    null, null, null);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            mainBinding.alertViewMain.progressPb.setVisibility(View.GONE);
+            movieList = new ArrayList<>();
+
+            if (data == null) { // no videos have been added as favourites
+                mainBinding.alertViewMain.alertTv.setText(R.string.no_favourite);
+            } else {
+                mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
+                data.moveToFirst();
+                while (data.moveToNext()) {
+                    String moviePoster = data.getString(data.getColumnIndex(MovieEntry.MOVIE_POSTER));
+                    int movieId = data.getInt(data.getColumnIndex(MovieEntry.MOVIE_ID));
+                    movieList.add(new Movie(moviePoster, movieId));
+                    Log.v(LOG_TAG, "movelist content: " + movieList.get(0).getMvPoster());
+                }
+                setUpAdapter(MainActivity.this, movieList);
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+            // no action on reset required, as it is not used.
+        }
+    };
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         preferencesUpdated = true;
@@ -200,7 +264,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onClick(Movie selectedMovie) {
         Intent openDetailActivity = new Intent(this, DetailActivity.class);
-        openDetailActivity.putExtra(DetailActivity.INTENT_KEY, selectedMovie);
+        openDetailActivity.putExtra(DetailActivity.SELECTED_KEY, selectedMovie);
         startActivity(openDetailActivity);
     }
 }

@@ -1,13 +1,11 @@
 <resources>
     <string name="app_name">PopMovies</string>
 
-    <!--Activities-->
-    <string name="movie_poster_contDescrip">Movie Poster</string>
-
     <!--Adapter-->
     <string name="image_base_url">http://image.tmdb.org/t/p/w185</string>
-    <string name="no_data">No movies are found based on your provided settings. Please adapt them and try again</string>
-    <string name="no_internet">Please check your internet connection and try again by tapping here.</string>
+    <string name="youtube_base_url">https://www.youtube.com/watch?v=</string>
+    <string name="poster_thumb_contentDescrip">Thumbnail of Poster</string>
+    <string name="author_review_contentDescrip">Author of review</string>
 
     <!--DetailActivity-->
     <string name="synopsis_contDescrip">Movie Description</string>
@@ -19,26 +17,30 @@
     <string name="user_rating_label">User Rating Label</string>
     <string name="user_rating_label_contDescrip">User Rating:</string>
     <string name="user_rating">User Rating</string>
-    <style name="reviews_label_ContDescrip">review label</style>
-
-    <!--Saving data-->
-
-    <!--Settings-->
-    <string name="sort_by_label">Sort by</string>
-    <string name="sort_by_key">Sort By</string>
-    <string name="popularity_sort_label_default">Sort by popularity</string>
-    <string name="rated_sort_label">Sort by top rated</string>
-    <string name="title_activity_setting">Settings</string>
-    <string name="poster_thumb_contentDescrip">Thumbnail of Poster</string>
-    <string name="author_review_contentDescrip">Author of review</string>
-    <string name="review_contDescrip">Review @android:string/paste_as_plain_text</string>
+    <string name="movie_poster_contDescrip">Movie Poster</string>
+    <string name="review_contDescrip">Review</string>
     <string name="reviews_label">Reviews:</string>
-    <string name="favourite_button_contDescrip">favourite button</string>
-    <string name="alert_icon_contentDescrip">Alert icon</string>
+    <string name="favourite_bt_menu">Favourite</string>
+    <string name="trailer_label">Trailer:</string>
+    <string name="trailer_label_contDescrip">Trailer Label</string>
+    <string name="play_button_contDescrip">Play Button for the trailer.</string>
+
+    <!--Alerts & Errors -->
     <string name="fav_added">This movie was added to your favourites.</string>
+    <string name="fav_removed">This movie has been removed from your favourite list.</string>
+    <string name="no_data">No movies are found based on your provided settings. Please adapt them and try again</string>
+    <string name="no_internet">Please check your internet connection and try again by tapping here.</string>
+    <string name="no_favourite">You have not favourited any movies so far.</string>
+    <string name="alert_no_review">There are no reviews for this film.</string>
     <string name="error_adding_fav">An error occurred when trying to add this movie to your favourites.</string>
     <string name="error_removing_fav">An error occurred when trying to remove this movie from your favourite list.</string>
-    <string name="fav_removed">This movie has been removed from your favourite list.</string>
-    <string name="favourite_bt_menu">Favourite</string>
+    <string name="alert_no_trailer">There are no trailers available for this movie.</string>
 
+    <!--Settings-->
+    <string name="display_label">Display movies by …</string>
+    <string name="display_key">Display movies</string>
+    <string name="popularity_display_label_default">Display movies sort by popularity</string>
+    <string name="rated_display_label">Display movies sorted by top rated</string>
+    <string name="favourite_display_label">Display Favourites</string>
+    <string name="title_activity_setting">Settings</string>
 </resources>

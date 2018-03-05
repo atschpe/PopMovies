@@ -82,7 +82,7 @@ public class JsonUtils {
         return movieList;
     }
 
-    public static ArrayList<Trailer> trailerList(String JsonUrl) throws JSONException {
+    public static ArrayList<Trailer> getTrailerList(String JsonUrl) throws JSONException {
         ArrayList<Trailer> trailerList = new ArrayList<>();
 
         JSONObject trailerJson = new JSONObject(JsonUrl);
@@ -106,7 +106,7 @@ public class JsonUtils {
         return trailerList;
     }
 
-    public static ArrayList<Review> reviewList(String JsonUrl) throws JSONException {
+    public static ArrayList<Review> getReviewList(String JsonUrl) throws JSONException {
         ArrayList<Review> reviewList = new ArrayList<>();
 
         JSONObject reviewJson = new JSONObject(JsonUrl);

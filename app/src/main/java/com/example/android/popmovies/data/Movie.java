@@ -15,7 +15,6 @@ public class Movie implements Parcelable {
     private String mvRelease; // e.g. 2010-01-01
     private int mvId; // e.g. 123456
 
-    //used by DetailActivity
     public Movie(String mvPoster, String mvTitle, String mvSynopsis, double mvRating,
                  String mvRelease, int mvId) {
         this.mvPoster = mvPoster;
@@ -26,7 +25,13 @@ public class Movie implements Parcelable {
         this.mvId = mvId;
     }
 
-    private Movie(Parcel in) {
+    public Movie(String moviePoster, int movieId) {
+        this.mvPoster = mvPoster;
+        this.mvId = mvId;
+    }
+
+    //to display
+    public Movie(Parcel in) {
         mvPoster = in.readString();
         mvTitle = in.readString();
         mvSynopsis = in.readString();

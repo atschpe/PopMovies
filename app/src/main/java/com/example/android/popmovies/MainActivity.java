@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
         mainBinding.alertViewMain.progressPb.setVisibility(View.GONE);
 
-        if (data == null) { //highly unlikely, with the current options, but better safe than sorry.
+        if (data == null) { //highly unlikely, with the current options, but better safe than sorry!
             mainBinding.alertViewMain.alertTv.setText(R.string.no_data);
         } else {
             mainBinding.alertViewMain.alertTv.setVisibility(View.GONE);
